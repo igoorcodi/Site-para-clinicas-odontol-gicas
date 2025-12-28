@@ -1,0 +1,7 @@
+{
+  "name": "Sorriso Real - Clínica Odontológica Moderna",
+  "description": "Uma plataforma completa para gestão e visualização de serviços odontológicos, incluindo agendamento multi-etapa, blog, galeria de infraestrutura e perfis de especialistas.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
