@@ -6,19 +6,20 @@ import {
   ArrowUp, MessageCircle, Calendar, CheckCircle2, ChevronRight,
   Stethoscope, Users, Info, BookOpen, Clock
 } from 'lucide-react';
-import Home from './pages/Home';
-import ServicesPage from './pages/ServicesPage';
-import ServiceDetail from './pages/ServiceDetail';
-import TeamPage from './pages/TeamPage';
-import TeamProfile from './pages/TeamProfile';
-import AboutPage from './pages/AboutPage';
-import BlogPage from './pages/BlogPage';
-import BlogPostDetail from './pages/BlogPostDetail';
-import ContactPage from './pages/ContactPage';
-import BookingPage from './pages/BookingPage';
-import SuccessPage from './pages/SuccessPage';
-import InsurancePage from './pages/InsurancePage';
-import NotFound from './pages/NotFound';
+
+import Home from './pages/Home.tsx';
+import ServicesPage from './pages/ServicesPage.tsx';
+import ServiceDetail from './pages/ServiceDetail.tsx';
+import TeamPage from './pages/TeamPage.tsx';
+import TeamProfile from './pages/TeamProfile.tsx';
+import AboutPage from './pages/AboutPage.tsx';
+import BlogPage from './pages/BlogPage.tsx';
+import BlogPostDetail from './pages/BlogPostDetail.tsx';
+import ContactPage from './pages/ContactPage.tsx';
+import BookingPage from './pages/BookingPage.tsx';
+import SuccessPage from './pages/SuccessPage.tsx';
+import InsurancePage from './pages/InsurancePage.tsx';
+import NotFound from './pages/NotFound.tsx';
 
 // Componente para resetar o scroll ao topo em cada navegação
 const ScrollToTopOnNavigation = () => {
