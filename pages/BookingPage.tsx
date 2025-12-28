@@ -5,7 +5,9 @@ import {
   ChevronLeft, ChevronRight, CheckCircle2, 
   Calendar, Clock, User, Stethoscope, Info,
   AlertCircle,
-  Users
+  Users,
+  MapPin,
+  Phone
 } from 'lucide-react';
 import { SERVICES, TEAM } from '../constants';
 import { BookingStep, Appointment } from '../types';
@@ -259,40 +261,77 @@ export default function BookingPage() {
         );
       case 6:
         return (
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold mb-4">Confirme as informações</h3>
-            <div className="bg-slate-50 p-8 rounded-[2rem] space-y-5 border border-slate-100 shadow-inner">
-              <div className="flex justify-between border-b border-slate-200 pb-3">
-                <span className="text-slate-500">Serviço</span>
-                <span className="font-bold text-slate-900">{SERVICES.find(s => s.id === formData.serviceId)?.title}</span>
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold mb-4">Confirme seu agendamento</h3>
+            
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+              <div className="bg-slate-50 px-6 py-4 border-b border-slate-100">
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Resumo do Pedido</p>
               </div>
-              <div className="flex justify-between border-b border-slate-200 pb-3">
-                <span className="text-slate-500">Especialista</span>
-                <span className="font-bold text-slate-900">{formData.dentistId === 'any' ? 'Primeiro Disponível' : TEAM.find(t => t.id === formData.dentistId)?.name}</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-200 pb-3">
-                <span className="text-slate-500">Data Escolhida</span>
-                <span className="font-bold text-blue-600">{formData.date}</span>
-              </div>
-              <div className="flex justify-between border-b border-slate-200 pb-3">
-                <span className="text-slate-500">Horário</span>
-                <span className="font-bold text-blue-600 underline">{formData.time}</span>
-              </div>
-              <div className="flex justify-between pt-2">
-                <span className="text-slate-500">Paciente</span>
-                <span className="font-bold text-slate-900">{formData.customerData?.name}</span>
+              <div className="p-6 space-y-5">
+                {/* Alinhamento refinado para as informações */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-blue-100 p-2 rounded-lg text-blue-600 mt-0.5">
+                    <Stethoscope size={18} />
+                  </div>
+                  <div className="flex-grow">
+                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Serviço</p>
+                    <p className="text-slate-900 font-bold">{SERVICES.find(s => s.id === formData.serviceId)?.title}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="bg-blue-100 p-2 rounded-lg text-blue-600 mt-0.5">
+                    <User size={18} />
+                  </div>
+                  <div className="flex-grow">
+                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Profissional</p>
+                    <p className="text-slate-900 font-bold">{formData.dentistId === 'any' ? 'Primeiro Disponível' : TEAM.find(t => t.id === formData.dentistId)?.name}</p>
+                  </div>
+                </div>
+
+                {/* Data e Horário juntos conforme solicitado: Horário abaixo da Data */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-blue-100 p-2 rounded-lg text-blue-600 mt-0.5">
+                    <Calendar size={18} />
+                  </div>
+                  <div className="flex-grow">
+                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Data e Horário</p>
+                    <p className="text-slate-900 font-bold">{formData.date}</p>
+                    <div className="flex items-center text-blue-600 font-black text-sm mt-0.5">
+                      <Clock size={14} className="mr-1.5" />
+                      <span>{formData.time}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-50 flex items-start space-x-4">
+                  <div className="bg-slate-100 p-2 rounded-lg text-slate-500 mt-0.5">
+                    <Users size={18} />
+                  </div>
+                  <div className="flex-grow">
+                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Paciente</p>
+                    <p className="text-slate-900 font-bold leading-tight">{formData.customerData?.name}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{formData.customerData?.phone}</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="space-y-4">
+
+            {/* Botão menor e mais resumido conforme solicitado */}
+            <div className="space-y-3 pt-2">
               <button 
                 onClick={handleBooking}
-                className="w-full bg-blue-600 text-white py-6 rounded-2xl font-bold text-xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] flex items-center justify-center space-x-3"
+                className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold text-base hover:bg-blue-700 transition-all shadow-md active:scale-[0.98] flex items-center justify-center space-x-2"
               >
-                <span>Finalizar e Enviar via WhatsApp</span>
-                <ChevronRight size={20} />
+                <span>Finalizar via WhatsApp</span>
+                <ChevronRight size={18} />
               </button>
-              <button onClick={prevStep} className="w-full text-slate-500 font-bold py-2 hover:text-blue-600 transition-colors underline">
-                Ajustar algum detalhe
+              <button 
+                onClick={prevStep} 
+                className="w-full text-slate-400 font-bold text-xs py-2 hover:text-blue-600 transition-colors uppercase tracking-widest"
+              >
+                Alterar dados
               </button>
             </div>
           </div>

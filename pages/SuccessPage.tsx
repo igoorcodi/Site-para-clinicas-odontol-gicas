@@ -10,6 +10,51 @@ export default function SuccessPage() {
   const location = useLocation();
   const booking = location.state?.booking;
 
+  const handleAddToCalendar = () => {
+    if (!booking) return;
+
+    // Formatação da data (DD/MM/YYYY -> YYYYMMDD)
+    const dateParts = booking.date.split('/');
+    if (dateParts.length !== 3) return;
+    const formattedDate = `${dateParts[2]}${dateParts[1]}${dateParts[0]}`;
+    
+    // Formatação da hora (HH:mm -> HHmm00)
+    const timeParts = booking.time.split(':');
+    const startTime = `${timeParts[0]}${timeParts[1]}00`;
+    
+    // Estimativa de 1 hora de consulta
+    const endHour = (parseInt(timeParts[0]) + 1).toString().padStart(2, '0');
+    const endTime = `${endHour}${timeParts[1]}00`;
+
+    const eventTitle = `Consulta Odontológica - Sorriso Real`;
+    const details = `Paciente: ${booking.customerData.name}. Favor levar documento com foto.`;
+    const locationStr = `Av. Sorriso Feliz, 1234, São Paulo - SP`;
+
+    const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${formattedDate}T${startTime}/${formattedDate}T${endTime}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(locationStr)}`;
+
+    window.open(googleCalendarUrl, '_blank');
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Meu Agendamento na Sorriso Real',
+      text: `Agendei minha consulta na Sorriso Real para o dia ${booking?.date || ''} às ${booking?.time || ''}.`,
+      url: window.location.origin,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Copiar para área de transferência
+        await navigator.clipboard.writeText(`${shareData.text} Acesse: ${shareData.url}`);
+        alert('Link de agendamento copiado para a área de transferência!');
+      }
+    } catch (err) {
+      console.error('Erro ao compartilhar:', err);
+    }
+  };
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-24 px-4 bg-slate-50">
       <div className="max-w-2xl w-full bg-white rounded-[3rem] p-12 text-center shadow-2xl shadow-slate-200">
@@ -47,10 +92,16 @@ export default function SuccessPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <button className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all">
+          <button 
+            onClick={handleAddToCalendar}
+            className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all active:scale-95"
+          >
             <Calendar size={18} /> <span>Adicionar ao Calendário</span>
           </button>
-          <button className="flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-200 transition-all">
+          <button 
+            onClick={handleShare}
+            className="flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-200 transition-all active:scale-95"
+          >
             <Share2 size={18} /> <span>Compartilhar</span>
           </button>
         </div>
